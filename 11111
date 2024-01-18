@@ -5,7 +5,6 @@ spawn(function()
             local character = player.Character
 
             if character == nil then
-                wait(10)  -- Đợi 10 giây trước khi respawn
                 local Event = game:GetService("ReplicatedStorage").Replicator
                 local args = {
                     [1] = "Core",
@@ -29,9 +28,10 @@ spawn(function()
                 }
                 Event:FireServer(unpack(args))
             else
-                -- Đặt Health thành 0 khi nhân vật chết
+                -- Đặt Health thành 0 khi nhân vật chết và Health >= 100
                 local humanoid = character:FindFirstChildOfClass("Humanoid")
-                if humanoid and humanoid.Health > 0 then
+                if humanoid and humanoid.Health >= 100 then
+                    wait(10)
                     humanoid.Health = 0
                 end
 
