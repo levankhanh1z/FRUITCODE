@@ -12,7 +12,7 @@ local isServerScript = game:GetService("RunService"):IsServer()
 
 if not isServerScript then
     spawn(function()
-        while .wait(0.1) do
+        while wait(0.1) do
             pcall(function()
                 plr = game.Players.LocalPlayer.Character
                 if plr == nil then
@@ -67,7 +67,7 @@ if not isServerScript then
         end
     end)
     spawn(function()
-        while task.wait(.5) do
+        while task.wait(.1) do
             pcall(function()
                 local vu = game:GetService("VirtualUser")
                 game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -79,7 +79,7 @@ if not isServerScript then
         end
     end)
     spawn(function()
-        while task.wait(600) do
+        while task.wait(1) do
             pcall(function()
                 LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
                 LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
