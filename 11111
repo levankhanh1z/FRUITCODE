@@ -31,7 +31,7 @@ spawn(function()
                 -- Đặt Health thành 0 khi nhân vật chết và Health >= 100
                 local humanoid = character:FindFirstChildOfClass("Humanoid")
                 if humanoid and humanoid.Health >= 100 then
-                    wait(10)
+                    wait(20)
                     humanoid.Health = 0
                 end
 
