@@ -89,3 +89,9 @@ if not isServerScript then
         end
     end)
 end
+
+
+while true do
+wait(10) 
+isServerScript()
+end
