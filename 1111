@@ -1,0 +1,42 @@
+spawn(function()
+    while wait(0.1) do
+        pcall(function()
+            local player = game.Players.LocalPlayer
+            local character = player.Character
+
+            if character == nil then
+                wait(10)  -- Đợi 10 giây trước khi respawn
+                local Event = game:GetService("ReplicatedStorage").Replicator
+                local args = {
+                    [1] = "Core",
+                    [2] = "LoadCharacter",
+                    [3] = {}
+                }
+                Event:InvokeServer(unpack(args))
+                
+                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                local args = {
+                    [1] = "Main",
+                    [2] = "Core",
+                    [3] = {}
+                }
+                Event:FireServer(unpack(args))
+                
+                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                local args = {
+                    [1] = "Main",
+                    [2] = "LoadCharacter"
+                }
+                Event:FireServer(unpack(args))
+            else
+                -- Đặt Health thành 0 khi nhân vật chết
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if humanoid and humanoid.Health > 0 then
+                    humanoid.Health = 0
+                end
+
+                -- Các hành động khác khi nhân vật sống
+            end
+        end)
+    end
+end)
