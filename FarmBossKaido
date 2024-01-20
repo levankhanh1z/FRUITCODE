@@ -1,0 +1,56 @@
+function split(source, delimiters)
+    local elements = {}
+    local pattern = '([^'..delimiters..']+)'
+    string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end);
+    return elements
+end
+
+local function teleportToCoordinates(coordinateTable)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(coordinateTable[1], coordinateTable[2], coordinateTable[3])
+end
+
+local function teleportToKaido()
+    local kaidoModel = workspace.Characters.NPCs:FindFirstChild("Kaido")
+    if kaidoModel and kaidoModel:FindFirstChild("HumanoidRootPart") then
+        local humanoidRootPart = kaidoModel.HumanoidRootPart
+        local coordinates = humanoidRootPart.Position + Vector3.new(0, 5, 0)  -- Điều chỉnh toạ độ nếu cần
+        teleportToCoordinates(coordinates)
+        -- Thực hiện các hành động khác tại đây nếu cần
+    end
+end
+
+local function checkAndTeleportCooldowns()
+    local cooldownsFolder = game.Players.LocalPlayer:FindFirstChild("Cooldowns")
+    if cooldownsFolder then
+        local numberValues = cooldownsFolder:GetChildren()
+        local hasNumberValue = false
+        for _, value in pairs(numberValues) do
+            if value:IsA("NumberValue") then
+                hasNumberValue = true
+                break
+            end
+        end
+        if hasNumberValue then
+            teleportToCoordinates(Vector3.new(-1276, 696, -190))
+        else
+            local kaidoModel = workspace.Characters.NPCs:FindFirstChild("Kaido")
+            if kaidoModel and kaidoModel:FindFirstChild("HumanoidRootPart") then
+                local humanoidRootPart = kaidoModel.HumanoidRootPart
+                local coordinates = humanoidRootPart.Position + Vector3.new(0, 5, 0)  -- Điều chỉnh toạ độ nếu cần
+                teleportToCoordinates(coordinates)
+            end
+        end
+    end
+end
+
+spawn(function()
+    while wait(1) do
+        pcall(teleportToKaido)
+    end
+end)
+
+spawn(function()
+    while wait(1) do
+        pcall(checkAndTeleportCooldowns)
+    end
+end)
