@@ -13,7 +13,7 @@ if not isServerScript then
             pcall(function()
                 plr = game.Players.LocalPlayer.Character
                 if plr == nil then
-                    wait(2)
+                    wait(1)
                     local Event = game:GetService("ReplicatedStorage").Replicator
                     local args = {
                         [1] = "Core",
@@ -92,28 +92,21 @@ end
 
 -- ... (đoạn mã hiện tại)
 
--- Kiểm tra và thực hiện teleport nếu thỏa mãn điều kiện
 if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
     local humanoidRootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
-    local cooldowns = game:GetService("Players").LocalPlayer.Cooldowns
+    local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
     
     -- Kiểm tra nếu HumanoidRootPart nằm trong model có tên Kaido
     if humanoidRootPart:IsA("Model") and humanoidRootPart.Name == "Kaido" then
         -- Lấy toạ độ sau HumanoidRootPart
         local teleportPosition = humanoidRootPart.CFrame.Position + Vector3.new(0, 0, 5)
         
-        -- Kiểm tra số lượng NumberValue trong Cooldowns
-        local numberValueCount = 0
-        for _, child in pairs(cooldowns:GetChildren()) do
-            if child:IsA("NumberValue") then
-                numberValueCount = numberValueCount + 1
-            end
-        end
-        
-        -- Thực hiện teleport dựa trên điều kiện số lượng NumberValue
-        if numberValueCount == 3 then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
+        -- Kiểm tra Health của Humanoid
+        if humanoid and humanoid.Health < 100 then
+            -- Nếu Health dưới 100, thực hiện teleport đến vị trí cụ thể
+            humanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
         else
+            -- Nếu không, thực hiện teleport đến toạ độ sau HumanoidRootPart
             humanoidRootPart.CFrame = CFrame.new(teleportPosition)
         end
     end
@@ -121,6 +114,6 @@ end
 
 -- Lặp vô hạn
 while true do
-    wait(10) 
+    wait(1) 
     isServerScript()
 end
