@@ -1,0 +1,46 @@
+ 
+
+
+local function hasModelInWorkspace(modelName)
+    local workspace = game.Workspace
+    local modelPath = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs") and workspace.Characters.NPCs:FindFirstChild(modelName)
+
+    return modelPath ~= nil and modelPath:IsA("Model")
+end
+
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+
+local Player = Players.LocalPlayer
+local Api = "https://games.roblox.com/v1/games/"
+
+local _place, _id = game.PlaceId, game.JobId
+local _servers = Api .. _place .. "/servers/Public?sortOrder=Desc&limit=100"
+local foundServer = false
+
+function ListServers(cursor)
+    local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
+    return HttpService:JSONDecode(Raw)
+end
+
+repeat
+    local Servers = ListServers(foundServer and Next)
+
+    for i, v in next, Servers.data do
+        if v.playing < v.maxPlayers and v.id ~= _id then
+            if not hasModelInWorkspace("Kaido") then
+                local s, r = pcall(TeleportService.TeleportToPlaceInstance, TeleportService, _place, v.id, Player)
+                if s then
+                    foundServer = true
+                    break
+                end
+            else
+                print("Server has the model 'Kaido' in Workspace. Skipping...")
+            end
+        end
+    end
+
+    Next = Servers.nextPageCursor
+    wait(1) -- Đợi 1 giây trước khi kiểm tra server tiếp theo để giảm tải server
+until not Next or foundServer
