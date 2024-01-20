@@ -1,6 +1,3 @@
- 
-
-
 local function hasModelInWorkspace(modelName)
     local workspace = game.Workspace
     local modelPath = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs") and workspace.Characters.NPCs:FindFirstChild(modelName)
@@ -29,7 +26,7 @@ repeat
 
     for i, v in next, Servers.data do
         if v.playing < v.maxPlayers and v.id ~= _id then
-            if not hasModelInWorkspace("Kaido") then
+            if hasModelInWorkspace("Kaido") then
                 local s, r = pcall(TeleportService.TeleportToPlaceInstance, TeleportService, _place, v.id, Player)
                 if s then
                     foundServer = true
