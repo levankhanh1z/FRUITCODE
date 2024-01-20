@@ -51,7 +51,7 @@ if not isServerScript then
                             end
                         end
 
-                        task.wait()
+                        task.wait(0.1)
 
                         if game.Workspace.Characters.NPCs:FindFirstChild("Kaido") then
                             local kaido = game.Workspace.Characters.NPCs:WaitForChild("Kaido")
@@ -59,18 +59,19 @@ if not isServerScript then
                             if kaido and kaido:FindFirstChild("HumanoidRootPart") then
                                 local humanoidRootPart = kaido:WaitForChild("HumanoidRootPart")
 
-                                while wait(0.5) do
+                                
                                 plr:SetPrimaryPartCFrame(humanoidRootPart.CFrame * CFrame.new(0, 0, 3))
                             end
                         end
-end
-
+                       
+                         while wait(.1) do
                         for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                             local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                             local ohString2 = v.Name
                             local ohTable3 = {}
                             game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
                             --print(ohString1)
+                            end
                         end
                     end
                 end
