@@ -1,10 +1,3 @@
-local function hasModelInWorkspace(modelName)
-    local workspace = game.Workspace
-    local modelPath = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs") and workspace.Characters.NPCs:FindFirstChild(modelName)
-
-    return modelPath ~= nil and modelPath:IsA("Model")
-end
-
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
@@ -15,6 +8,13 @@ local Api = "https://games.roblox.com/v1/games/"
 local _place, _id = game.PlaceId, game.JobId
 local _servers = Api .. _place .. "/servers/Public?sortOrder=Desc&limit=100"
 local foundServer = false
+
+function hasModelInWorkspace(modelName)
+    local workspace = game.Workspace
+    local modelPath = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs") and workspace.Characters.NPCs:FindFirstChild(modelName)
+
+    return modelPath ~= nil and modelPath:IsA("Model")
+end
 
 function ListServers(cursor)
     local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
@@ -30,14 +30,14 @@ repeat
         if v.playing < v.maxPlayers and v.id ~= _id then
             local targetServerHasKaido = hasModelInWorkspace("Kaido")
             
-            if not currentServerHasKaido and targetServerHasKaido then
+            if not currentServerHasKaido then
                 local s, r = pcall(TeleportService.TeleportToPlaceInstance, TeleportService, _place, v.id, Player)
                 if s then
                     foundServer = true
                     break
                 end
             else
-                print("Server has the model 'Kaido' in Workspace or current server has 'Kaido'. Skipping...")
+                print("Current server has the model 'Kaido'. Skipping...")
             end
         end
     end
