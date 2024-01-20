@@ -1,3 +1,11 @@
+local function hasModelInWorkspace(modelName)
+    local workspace = game.Workspace
+    local NPCsFolder = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs")
+
+    -- Kiểm tra nếu "NPCs" tồn tại và có con có tên là "Kaido"
+    return NPCsFolder and NPCsFolder:FindFirstChild(modelName) ~= nil
+end
+
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
@@ -8,13 +16,6 @@ local Api = "https://games.roblox.com/v1/games/"
 local _place, _id = game.PlaceId, game.JobId
 local _servers = Api .. _place .. "/servers/Public?sortOrder=Desc&limit=100"
 local foundServer = false
-
-function hasModelInWorkspace(modelName)
-    local workspace = game.Workspace
-    local modelPath = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs") and workspace.Characters.NPCs:FindFirstChild(modelName)
-
-    return modelPath ~= nil and modelPath:IsA("Model")
-end
 
 function ListServers(cursor)
     local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
