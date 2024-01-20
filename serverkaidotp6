@@ -1,6 +1,6 @@
 local function hasModelInWorkspace(modelName)
     local workspace = game.Workspace
-    local NPCsFolder = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs")
+    local NPCsFolder = workspace:FindFirstChild("Characters") and workspace.Characters:FindFirstChild("NPCs") and workspace.Characters.NPCs:FindFirstChild(modelName)
 
     -- Kiểm tra nếu "NPCs" tồn tại và có con có tên là "Kaido"
     return NPCsFolder and NPCsFolder:FindFirstChild(modelName) ~= nil
@@ -9,6 +9,7 @@ end
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
+local RunService = game:GetService("RunService")
 
 local Player = Players.LocalPlayer
 local Api = "https://games.roblox.com/v1/games/"
@@ -31,14 +32,18 @@ repeat
         if v.playing < v.maxPlayers and v.id ~= _id then
             local targetServerHasKaido = hasModelInWorkspace("Kaido")
             
-            if not currentServerHasKaido and targetServerHasKaido then
+            local serverTime = v.time or "00:00:00" -- Giả định rằng server trả về thời gian trong dạng "HH:mm:ss"
+
+            local minutes = tonumber(serverTime:match("(%d+):(%d+):(%d+)")) or 0
+            -- Kiểm tra nếu thời gian nằm trong khoảng 53 - 67 phút và không có "Kaido" trong server hiện tại
+            if not currentServerHasKaido and targetServerHasKaido and minutes >= 53 and minutes <= 67 then
                 local s, r = pcall(TeleportService.TeleportToPlaceInstance, TeleportService, _place, v.id, Player)
                 if s then
                     foundServer = true
                     break
                 end
             else
-                print("Server has the model 'Kaido' in Workspace or current server has no 'Kaido'. Skipping...")
+                print("Server has the model 'Kaido' in Workspace or current server has no 'Kaido' or time is not within the specified range. Skipping...")
             end
         end
     end
