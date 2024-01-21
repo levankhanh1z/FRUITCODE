@@ -1,18 +1,15 @@
 local backpack = game:GetService("Players").LocalPlayer.Backpack["Neo Red Hawk"]
 
-while wait(0.5) do 
 if backpack then
- local A_1 = "\78\105\107\97"
-local A_2 = "\71\101\97\114\53"
-local A_3 = 
-{
-}
-local Event = game:GetService("ReplicatedStorage").Replicator
-Event:InvokeServer(A_1, A_2, A_3)
+   while wait(0.5) do 
+      local A_1 = "\78\105\107\97"
+      local A_2 = "\71\101\97\114\53"
+      local A_3 = {}
+      local Event = game:GetService("ReplicatedStorage").Replicator
+      Event:InvokeServer(A_1, A_2, A_3)
+   end
 else
-
-    backpack =  nil
-end
+   warn("Backpack not found!")
 end
 
 
