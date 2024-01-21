@@ -13,7 +13,7 @@ if not isServerScript then
             pcall(function()
                 local plr = game.Players.LocalPlayer.Character
                 if not plr then
-                    wait(1)
+                    wait(2)
                     local Replicator = game:GetService("ReplicatedStorage").Replicator
                     local args = {
                         [1] = "Core",
@@ -40,7 +40,7 @@ if not isServerScript then
                     local exit = split(path, "/")
                     local humanoid = plr:FindFirstChildOfClass("Humanoid")
 
-                    if humanoid and humanoid.Health < 100 then
+                    if humanoid and humanoid.Health < 0 then
                         humanoid.Health = 0
                     else
                         _G.Toggle = true
@@ -59,20 +59,33 @@ if not isServerScript then
                             if kaido and kaido:FindFirstChild("HumanoidRootPart") then
                                 local humanoidRootPart = kaido:WaitForChild("HumanoidRootPart")
 
-                                
+                                -- Sử dụng CFrame từ đoạn mã của bạn để teleport đến Kaido
                                 plr:SetPrimaryPartCFrame(humanoidRootPart.CFrame * CFrame.new(0, 0, 3))
                             end
                         end
-                       
-                         while wait(.1) do
-                        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                            local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
-                            local ohString2 = v.Name
-                            local ohTable3 = {}
-                            game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-                            --print(ohString1)
-                            end
-                        end
+	                  local UserInputService = game:GetService("UserInputService")
+
+local vu = game:GetService("VirtualUser")
+
+-- Định nghĩa giá trị mặc định cho ohString4
+local ohString4 = "DefaultValue"
+
+UserInputService.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        -- Gọi server với giá trị của ohString1 và ohString4 khi click chuột
+        local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+        local ohString2 = v.Name
+        local ohTable3 = {}
+        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohString4, ohTable3)
+    end
+end)
+
+-- Kích hoạt VirtualUser
+vu:Button1Down(Vector2.new(0, 0), workspace["Neo Red Hawk"].CFrame)
+wait(1)
+vu:Button1Up(Vector2.new(0, 0), workspace["Neo Red Hawk"].CFrame)
+
+                        _G.Toggle = false  -- Đặt lại giá trị Toggle thành false sau khi đã tp đến Kaido
                     end
                 end
             end)
@@ -81,7 +94,7 @@ if not isServerScript then
     spawn(function()
         while task.wait(.1) do
             pcall(function()
-                local vu = game:GetService("VirtualUser")
+                
                 game:GetService("Players").LocalPlayer.Idled:connect(function()
                     vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
                     wait(1)
