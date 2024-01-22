@@ -1,22 +1,22 @@
-local A_1 = "\78\105\107\97"
-local A_2 = "\71\101\97\114\53"
-local A_3 = 
+local 1 = "\78\105\107\97"
+local 2 = "\71\101\97\114\53"
+local 3 = 
 {
 }
 local Event = game:GetService("ReplicatedStorage").Replicator
-Event:InvokeServer(A_1, A_2, A_3)
+Event:InvokeServer(1, 2, 3)
 
 wait(3)
-Event:InvokeServer(A_1, A_2, A_3)
+Event:InvokeServer((1, 2, 3)
 wait(3)
 wait(3)
-Event:InvokeServer(A_1, A_2, A_3)
+Event:InvokeServer((1, 2, 3)
 wait(3)
 wait(3)
-Event:InvokeServer(A_1, A_2, A_3)
+Event:InvokeServer((1, 2, 3)
 wait(3)
 wait(3)
-Event:InvokeServer(A_1, A_2, A_3)
+Event:InvokeServer((1, 2, 3)
 wait(3)
 
 
