@@ -21,23 +21,21 @@ function ListServers(cursor)
     return HttpService:JSONDecode(Raw)
 end
 
-local currentServerHasKaido = hasModelInWorkspace("Kaido")
-
 repeat
     local Servers = ListServers(foundServer and Next)
 
     for i, v in next, Servers.data do
-        if v.playing < v.maxPlayers and v.id ~= _id and v.playing < 20 then -- Thêm điều kiện số người chơi < 5
+        if v.playing < v.maxPlayers and v.id ~= _id and v.playing < 5 then
             local targetServerHasKaido = hasModelInWorkspace("Kaido")
             
-            if not currentServerHasKaido then
+            if not targetServerHasKaido then
                 local s, r = pcall(TeleportService.TeleportToPlaceInstance, TeleportService, _place, v.id, Player)
                 if s then
                     foundServer = true
                     break
                 end
             else
-                print("Current server has the model 'Kaido'. Skipping...")
+                print("Target server has the model 'Kaido'. Skipping...")
             end
         end
     end
