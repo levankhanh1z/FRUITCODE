@@ -1,0 +1,13 @@
+local workspace = game:GetService("Workspace")
+
+-- Tìm folder có tên là "Effects"
+local effectsFolder = workspace:FindFirstChild("Effects")
+
+-- Kiểm tra nếu folder tồn tại
+if effectsFolder then
+    -- Xoá folder
+    effectsFolder:Destroy()
+    print("Đã xoá folder Effects.")
+else
+    print("Không tìm thấy folder Effects.")
+end
