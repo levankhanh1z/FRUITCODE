@@ -1,0 +1,58 @@
+local A_1 = "\78\105\107\97"
+local A_2 = "\71\101\97\114\53"
+local A_3 = 
+{
+}
+local Event = game:GetService("ReplicatedStorage").Replicator
+Event:InvokeServer(A_1, A_2, A_3)
+
+wait(3)
+Event:InvokeServer(A_1, A_2, A_3)
+wait(3)
+wait(3)
+Event:InvokeServer(A_1, A_2, A_3)
+wait(3)
+wait(3)
+Event:InvokeServer(A_1, A_2, A_3)
+wait(3)
+wait(3)
+Event:InvokeServer(A_1, A_2, A_3)
+wait(3)
+
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+-- Lấy RemoteEvent từ ReplicatedStorage
+local ReplicatorNoYield = ReplicatedStorage:WaitForChild("ReplicatorNoYield")
+
+-- Lấy người chơi địa phương
+local player = Players.LocalPlayer
+
+-- Đợi cho nhân vật của người chơi được tạo ra
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Hàm để gửi thông tin CFrame đến server
+local function sendCFrameToServer(cframe)
+    local A_1 = "\78\105\107\97"  -- Thay đổi giá trị A_1 theo yêu cầu của bạn
+    local A_2 = "\66\97\106\114\97\110\103\71\117\110"  -- Thay đổi giá trị A_2 theo yêu cầu của bạn
+    local A_3 = {
+        ["RootCF"] = cframe,
+    }
+
+    -- Gửi thông tin đến server thông qua RemoteEvent
+    ReplicatorNoYield:FireServer(A_1, A_2, A_3)
+end
+
+-- Hàm để lấy thông tin CFrame và gửi đến server
+local function updateAndSendCFrame()
+    local rootCF = humanoidRootPart.CFrame
+    sendCFrameToServer(rootCF)
+end
+
+-- Sự kiện InputChanged để theo dõi sự thay đổi của chuột
+player:GetMouse().Move:Connect(updateAndSendCFrame)
+
+
+
