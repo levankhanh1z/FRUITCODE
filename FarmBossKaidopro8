@@ -2,7 +2,7 @@ local Slot = game:GetService("Players").LocalPlayer.MAIN_DATA.Slot.Value
 
 
 
-if Slot.Value = 1 then
+if Slot.Value == 1 then
 
 
 
