@@ -1,5 +1,3 @@
-
-
 function split(source, delimiters)
     local elements = {}
     local pattern = '([^'..delimiters..']+)'
@@ -16,8 +14,7 @@ if not isServerScript then
                 local plr = game.Players.LocalPlayer.Character
                 if not plr then
                     wait(2)
-                  
-                     local Replicator = game:GetService("ReplicatedStorage").Replicator
+                    local Replicator = game:GetService("ReplicatedStorage").Replicator
                     local args = {
                         [1] = "Core",
                         [2] = "LoadCharacter",
@@ -38,13 +35,12 @@ if not isServerScript then
                         [2] = "LoadCharacter"
                     }
                     ReplicatorNoYield:FireServer(unpack(args))
-                   
                 else
                     local path = game.Players.LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                     local exit = split(path, "/")
                     local humanoid = plr:FindFirstChildOfClass("Humanoid")
 
-                    if humanoid and humanoid.Health < 100 then
+                    if humanoid and humanoid.Health < 0 then
                         humanoid.Health = 0
                     else
                         _G.Toggle = true
@@ -67,14 +63,17 @@ if not isServerScript then
                                 plr:SetPrimaryPartCFrame(humanoidRootPart.CFrame * CFrame.new(0, 0, 3))
                             end
                         end
-                      task.wait(0.1)
+                               local vu = game:GetService("VirtualUser")
                         for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                             local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                             local ohString2 = v.Name
+                            local ohString4 =
                             local ohTable3 = {}
                             game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
                             --print(ohString1)
                         end
+
+                        _G.Toggle = false  -- Đặt lại giá trị Toggle thành false sau khi đã tp đến Kaido
                     end
                 end
             end)
@@ -83,7 +82,7 @@ if not isServerScript then
     spawn(function()
         while task.wait(.1) do
             pcall(function()
-                local vu = game:GetService("VirtualUser")
+                
                 game:GetService("Players").LocalPlayer.Idled:connect(function()
                     vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
                     wait(1)
@@ -103,7 +102,6 @@ if not isServerScript then
                 if not playersFolder or #playersFolder:GetChildren() == 0 then
                     -- Gọi hàm load character khi không có Players trong workspace.Characters
                     local Replicator = game:GetService("ReplicatedStorage").Replicator
-                   
                     local args = {
                         [1] = "Core",
                         [2] = "LoadCharacter",
@@ -124,10 +122,8 @@ if not isServerScript then
                         [2] = "LoadCharacter"
                     }
                     ReplicatorNoYield:FireServer(unpack(args))
-
-                 
                 end
             end)
         end
     end)
-
+end
