@@ -128,10 +128,7 @@ if not isServerScript then
                 end
             end)
         end
-
-        else 
-
-
-        print("2")
-
-        end
+    end)
+else
+    print("2")
+end
