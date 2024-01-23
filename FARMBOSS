@@ -1,0 +1,137 @@
+local traiacquy = game:GetService("Players").LocalPlayer.MAIN_DATA.Slot
+
+if Slot.Value == 1 then
+
+
+
+function split(source, delimiters)
+    local elements = {}
+    local pattern = '([^'..delimiters..']+)'
+    string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
+    return elements
+end
+
+local isServerScript = game:GetService("RunService"):IsServer()
+
+if not isServerScript then
+    spawn(function()
+        while wait(0.1) do
+            pcall(function()
+                local plr = game.Players.LocalPlayer.Character
+                if not plr then
+                    wait(2)
+                    local Replicator = game:GetService("ReplicatedStorage").Replicator
+                    local args = {
+                        [1] = "Core",
+                        [2] = "LoadCharacter",
+                        [3] = {}
+                    }
+                    Replicator:InvokeServer(unpack(args))
+
+                    local ReplicatorNoYield = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                    args = {
+                        [1] = "Main",
+                        [2] = "Core",
+                        [3] = {}
+                    }
+                    ReplicatorNoYield:FireServer(unpack(args))
+
+                    args = {
+                        [1] = "Main",
+                        [2] = "LoadCharacter"
+                    }
+                    ReplicatorNoYield:FireServer(unpack(args))
+                else
+                    local path = game.Players.LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+                    local exit = split(path, "/")
+                    local humanoid = plr:FindFirstChildOfClass("Humanoid")
+
+                    if humanoid and humanoid.Health < 100 then
+                        humanoid.Health = 0
+                    else
+                        _G.Toggle = true
+                        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                            local x = string.split(v.Name, " ")
+                            if x[2] then
+                                v.Name = x[1] .. x[2]
+                            end
+                        end
+
+                        task.wait(0.1)
+
+                        if game.Workspace.Characters.NPCs:FindFirstChild("Kaido") then
+                            local kaido = game.Workspace.Characters.NPCs:WaitForChild("Kaido")
+
+                            if kaido and kaido:FindFirstChild("HumanoidRootPart") then
+                                local humanoidRootPart = kaido:WaitForChild("HumanoidRootPart")
+
+                                -- Sử dụng CFrame từ đoạn mã của bạn để teleport đến Kaido
+                                plr:SetPrimaryPartCFrame(humanoidRootPart.CFrame * CFrame.new(0, 0, 3))
+                            end
+                        end
+                      task.wait(0.1)
+                        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                            local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+                            local ohString2 = v.Name
+                            local ohTable3 = {}
+                            game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+                            --print(ohString1)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+    spawn(function()
+        while task.wait(.1) do
+            pcall(function()
+                local vu = game:GetService("VirtualUser")
+                game:GetService("Players").LocalPlayer.Idled:connect(function()
+                    vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                    wait(1)
+                    vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                end)
+            end)
+        end
+    end)
+    spawn(function()
+        while task.wait(1) do
+            pcall(function()
+                local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
+                local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
+                local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+                local playersFolder = workspace.Characters:FindFirstChild("Players")
+
+                if not playersFolder or #playersFolder:GetChildren() == 0 then
+                    -- Gọi hàm load character khi không có Players trong workspace.Characters
+                    local Replicator = game:GetService("ReplicatedStorage").Replicator
+                    local args = {
+                        [1] = "Core",
+                        [2] = "LoadCharacter",
+                        [3] = {}
+                    }
+                    Replicator:InvokeServer(unpack(args))
+
+                    local ReplicatorNoYield = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                    args = {
+                        [1] = "Main",
+                        [2] = "Core",
+                        [3] = {}
+                    }
+                    ReplicatorNoYield:FireServer(unpack(args))
+
+                    args = {
+                        [1] = "Main",
+                        [2] = "LoadCharacter"
+                    }
+                    ReplicatorNoYield:FireServer(unpack(args))
+                end
+            end)
+        end
+
+        else 
+
+
+        print("2")
+
+        end
