@@ -1,6 +1,6 @@
 local traiacquy = game:GetService("Players").LocalPlayer.MAIN_DATA.Slot
 
-if Slot.Value == 1 then
+if traiacquy.Value == 1 then
 
 
 
