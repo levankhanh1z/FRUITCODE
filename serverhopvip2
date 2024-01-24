@@ -26,7 +26,7 @@ repeat
 
     for i, v in next, Servers.data do
         if v.playing < v.maxPlayers and v.id ~= _id and v.playing < 7 then
-            local targetServerHasKaido = hasModelInWorkspace("Kaido")
+            local targetServerHasKaido = hasModelInWorkspace("Marco")
             
             if not targetServerHasKaido then
                 local s, r = pcall(TeleportService.TeleportToPlaceInstance, TeleportService, _place, v.id, Player)
