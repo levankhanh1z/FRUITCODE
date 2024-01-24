@@ -25,7 +25,7 @@ repeat
     local Servers = ListServers(foundServer and Next)
 
     for i, v in next, Servers.data do
-        if v.playing < v.maxPlayers and v.id ~= _id and v.playing < 5 then
+        if v.playing < v.maxPlayers and v.id ~= _id and v.playing < 7 then
             local targetServerHasKaido = hasModelInWorkspace("Kaido")
             
             if not targetServerHasKaido then
